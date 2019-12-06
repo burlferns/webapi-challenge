@@ -31,32 +31,53 @@ router.get('/', (req, res) => {
 // GET /acts/:id
 // ********************************************************
 router.get('/:id', validateActId, (req, res) => {
-    res.status(200).json(req.act);
+  res.status(200).json(req.act);
 });
 
 // ********************************************************
 // PUT /acts/:id
 // ********************************************************
 router.put('/:id', validateActId, validateActData, validateActData_PrjID, (req, res) => {
-    adb.update(req.params.id,req.body)
-      .then(act=>{
-        // console.log("In PUT /acts/:id",act);
-        if(act!==null) {
-          res.status(200).json(act);
-        }
-        else {
-          res.status(400).json({ message: "invalid action id" });
-        }
-      })
-      .catch(err=>{
-        console.log("Error in adb.update in PUT /acts/:id");
-        res.status(500)
-          .json({error: "Action could not be updated."});
-      });
+  adb.update(req.params.id,req.body)
+    .then(act=>{
+      // console.log("In PUT /acts/:id",act);
+      if(act!==null) {
+        res.status(200).json(act);
+      }
+      else {
+        res.status(400).json({ message: "invalid action id" });
+      }
+    })
+    .catch(err=>{
+      console.log("Error in adb.update in PUT /acts/:id");
+      res.status(500)
+        .json({error: "Action could not be updated."});
+    });
   });
 
-
-
+// ********************************************************
+// DELETE /acts/:id
+// ********************************************************
+router.delete('/:id', validateActId, (req, res) => {
+  adb.remove(req.params.id)
+    .then(count=>{
+      console.log(count);
+      if(count===1) {
+          res.status(200).json(`Action with id ${req.params.id} has been deleted`);
+      }
+      else {
+          console.log("Error in adb.remove in DELETE /acts/:id");
+          res.status(500)
+          .json({error: "Action could not be deleted."});
+      }
+    })
+    .catch(err=>{
+      console.log("Error in adb.remove in DELETE /posts/:id");
+      res.status(500)
+          .json({error: "Action could not be deleted."});
+    })
+});
+  
 
 
 
