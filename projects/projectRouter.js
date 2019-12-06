@@ -6,10 +6,10 @@ const router = express.Router();
 
 // Import database access
 const pdb = require('../data/helpers/projectModel');
-
+const adb = require('../data/helpers/actionModel');
 
 //Import custom middleware
-const {validatePrjId, validatePrjData} = require('../middleware/custom');
+const {validatePrjId, validatePrjData, validateActData} = require('../middleware/custom');
 
 // ********************************************************
 // GET /projs
@@ -99,6 +99,38 @@ router.delete('/:id', validatePrjId, (req, res) => {
 });
 
 
+
+// ********************************************************
+// POST /projs/:id/acts
+// ********************************************************
+router.post('/:id/acts', validatePrjId, validateActData, (req, res) => {
+  adb.insert({...req.body,project_id:req.params.id})
+  .then(act=>{
+    // console.log("In POST /projs/:id/acts",act);
+    res.status(200).json(act);
+  })
+  .catch(err=>{
+    console.log("Error in adb.insert in POST /projs/:id/acts");
+    res.status(500)
+      .json({error: "Could not add new action to database."});
+  })
+});
+
+
+// ********************************************************
+// GET /projs/:id/acts
+// ********************************************************
+router.get('/:id/acts', validatePrjId, (req, res) => {
+  pdb.getProjectActions(req.params.id)
+    .then(acts=>{
+      res.status(200).json(acts);
+    })
+    .catch(err=>{
+      console.log("Error in pdb.getProjectActions in GET /projs/:id/acts");
+      res.status(500)
+        .json({error: "Information on actions could not be retrieved."});
+    })
+});
 
 
 

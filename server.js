@@ -4,7 +4,7 @@ const helmet = require("helmet");
 
 // Import specific Routers
 const projectRouter = require("./projects/projectRouter"); 
-// const postRouter = require("./posts/postRouter"); 
+const actionRouter = require("./actions/actionRouter"); 
 
 // Create server
 const server = express();
@@ -21,7 +21,7 @@ server.get('/', (req, res) => {
 
 // Use specific Routers
 server.use("/projs", projectRouter); 
-// server.use("/posts", postRouter); 
+server.use("/acts", actionRouter); 
 
 server.use(defaultResponse);
 
@@ -32,7 +32,7 @@ function logger(req, res, next) {
 }
 
 function defaultResponse(req,res) {
-  res.status(404).json("You have used an unsupported url")
+  res.status(404).json(`<h2>You have used an unsupported URL</h2>`)
 }
 
 module.exports = server;
