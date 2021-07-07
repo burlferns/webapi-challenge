@@ -1,0 +1,14 @@
+Q1: Mention two parts of Express that you learned about this week.
+A1: We learnt about the server and the router
+
+Q2: Describe Middleware?
+A2: These are functions that extend software. In Express they add features by a series of functions that get executed in the order that they are introduced into the server code
+
+Q3: Describe a Resource?
+A3: A resource is something that our application deals with by saving it to a database, modifying it, deleting it or retrieving it. Resources are the nouns in the application domain
+
+Q4: What can the API return to help clients know if a request was successful?
+A4: It can return HTTP status codes. Status codes in the range 200 to 299 are used to signal different types of successful requests.
+
+ Q5: How can we partition our application into sub-applications?
+A5: By the use of the Router function in Express. Each resource in the application can have its own router file where its CRUD operations are defined. This router file is the “sub-application” which is then pulled into the main application by export statements in the router file and import statements in the “main application” server file.
